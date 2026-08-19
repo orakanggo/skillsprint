@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function Onboarding() { return <main><nav><Link href="/" className="logo">SkillSprint</Link></nav><section className="section onboarding"><span className="badge">WELCOME TO SKILLSPRINT</span><h1>Your next five minutes start here.</h1><p>Choose a path, complete one practical sprint, and build a streak.</p><Link href="/dashboard" className="button">Choose a skill path →</Link></section></main> }

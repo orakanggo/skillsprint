@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function Pricing() { return <main><nav><Link href="/" className="logo">SkillSprint</Link></nav><section className="section center"><span className="badge">PRICING</span><h1>Simple plans. Serious growth.</h1><div className="grid"><article><h2>Starter</h2><p>$15/month · Individual learning</p><Link href="/onboarding" className="button">Start free</Link></article><article><h2>Team</h2><p>$12/member/month · Shared analytics</p><Link href="/team" className="button">Talk to us</Link></article></div></section></main> }

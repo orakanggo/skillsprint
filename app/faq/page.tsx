@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function Faq() { return <main><nav><Link href="/" className="logo">SkillSprint</Link></nav><section className="section"><span className="badge">FAQ</span><h1>Questions, answered.</h1>{[['How long is a sprint?','Five focused minutes.'],['Can teams track progress?','Yes, team learners and completion data are available.'],['Can I cancel?','Yes, anytime.']].map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}<Link href="/" className="secondary">← Home</Link></section></main> }

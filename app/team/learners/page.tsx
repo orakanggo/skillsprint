@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function Learners() { return <main><section className="section"><span className="badge">TEAM LEARNERS</span><h1>Learner progress</h1><div className="grid"><article><h2>Invite your team</h2><p>Share a path and build a learning habit together.</p><button className="button">Invite learner</button></article><article><h2>Progress overview</h2><p>No learners added yet.</p></article></div><Link href="/team">← Team overview</Link></section></main> }

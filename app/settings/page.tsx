@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function Settings() { return <main><nav><Link href="/dashboard" className="logo">SkillSprint</Link></nav><section className="section"><span className="badge">ACCOUNT</span><h1>Settings</h1><div className="settings-card"><h2>Profile</h2><label>Name<input placeholder="Your name" /></label><label>Email<input type="email" placeholder="you@example.com" /></label><button className="button">Save changes</button></div><Link href="/dashboard">← Dashboard</Link></section></main> }

@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSprint — Practical Microlearning for Modern Teams</title>
+  <meta name="description" content="Build high-impact skills in 5-minute daily sprints. SkillSprint helps modern teams master engineering, design, product, and leadership with bite-sized guided paths.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: oklch(0.985 0.005 240);
+      --surface: oklch(1 0 0);
+      --surface-subtle: oklch(0.965 0.008 240);
+      --fg: oklch(0.14 0.02 240);
+      --muted: oklch(0.48 0.02 240);
+      --border: oklch(0.90 0.01 240);
+      --accent: oklch(0.55 0.22 250);
+      --accent-hover: oklch(0.48 0.24 250);
+      --accent-soft: oklch(0.95 0.03 250);
+      --success: oklch(0.62 0.18 150);
+      --radius-sm: 6px;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
+      --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-family: var(--font-body);
+      color: var(--fg);
+      background-color: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Accessibility focus styles */
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      color: var(--fg);
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: clamp(1.875rem, 3.5vw, 2.75rem);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 1.0625rem;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 1px solid oklch(0.90 0.05 250);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* Navigation */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(251, 252, 253, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 4.5rem;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--fg);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.15s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--fg);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.35rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--fg);
+      border-color: var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-subtle);
+      border-color: oklch(0.82 0.01 240);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg);
+    }
+
+    .btn-ghost:hover {
+      background: var(--surface-subtle);
+    }
+
+    /* Mobile Nav Toggle */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      color: var(--fg);
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 0 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .hero-title {
+      margin: 1.25rem 0 1.25rem;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(135deg, var(--accent) 0%, oklch(0.60 0.25 290) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 1.25rem;
+      max-width: 660px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-guarantee {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* Interactive Demo Card */
+    .hero-demo {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .demo-header {
+      background: var(--surface-subtle);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .demo-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .demo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .demo-dot:nth-child(1) { background: #ff5f56; }
+    .demo-dot:nth-child(2) { background: #ffbd2e; }
+    .demo-dot:nth-child(3) { background: #27c93f; }
+
+    .demo-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .demo-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .sprint-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+
+    .sprint-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .sprint-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .sprint-time {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .progress-bar-wrap {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 1.25rem 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 66%;
+      background: var(--accent);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .quiz-opt {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--fg);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quiz-opt:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .quiz-opt.selected {
+      border-color: var(--success);
+      background: oklch(0.97 0.03 150);
+      color: oklch(0.25 0.10 150);
+    }
+
+    .demo-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .demo-info p {
+      margin-bottom: 1.5rem;
+    }
+
+    .streak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: oklch(0.97 0.04 70);
+      border: 1px solid oklch(0.90 0.08 70);
+      border-radius: var(--radius);
+      color: oklch(0.40 0.15 70);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Social Proof */
+    .logos-section {
+      padding: 3rem 0;
+      border-y: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .logos-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .logos-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+      opacity: 0.7;
+    }
+
+    .logo-item {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--fg);
+      letter-spacing: -0.03em;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-header h2 {
+      margin: 0.75rem 0 1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-soft);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 0.75rem;
+    }
+
+    /* Paths Interactive Section */
+    .paths-section {
+      padding: 5rem 0;
+      background: var(--surface);
+      border-y: 1px solid var(--border);
+    }
+
+    .paths-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .path-tab {
+      padding: 0.6rem 1.25rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .path-tab.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .paths-preview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .path-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .path-lessons-count {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .path-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .path-card p {
+      font-size: 0.9rem;
+    }
+
+    /* Pricing Section */
+    .pricing {
+      padding: 6rem 0;
+    }
+
+    .pricing-toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .toggle-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .toggle-label.active {
+      color: var(--fg);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--border);
+      transition: 0.3s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .price-card.popular {
+      border-color: var(--accent);
+      box-shadow: 0 12px 32px -8px rgba(37, 99, 235, 0.18);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.85rem;
+      border-radius: 9999px;
+    }
+
+    .price-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-desc {
+      font-size: 0.9rem;
+      min-height: 2.7em;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-amount-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      margin-bottom: 2rem;
+    }
+
+    .price-currency {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .price-val {
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: var(--font-display);
+      letter-spacing: -0.03em;
+    }
+
+    .price-period {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .price-features {
+      list-style: none;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.95rem;
+      color: var(--fg);
+    }
+
+    .check-icon {
+      color: var(--success);
+      flex-shrink: 0;
+    }
+
+    /* FAQ Section */
+    .faq {
+      padding: 5rem 0 6rem;
+      background: var(--surface);
+      border-t: 1px solid var(--border);
+    }
+
+    .faq-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .faq-button {
+      width: 100%;
+      text-align: left;
+      padding: 1.35rem 1.5rem;
+      background: none;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--fg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-icon {
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 1.5rem;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    /* CTA Section */
+    .cta-banner {
+      padding: 5rem 0;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, oklch(0.20 0.04 250) 0%, oklch(0.12 0.03 250) 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .cta-box p {
+      color: oklch(0.85 0.02 240);
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.15rem;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--surface-subtle);
+      border-top: 1px solid var(--border);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 3rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .footer-brand p {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      max-width: 300px;
+    }
+
+    .footer-col h5 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--fg);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 900px) {
+      .features-grid, .pricing-grid, .paths-preview {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-body {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 4.5rem;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="site-header" data-od-id="site-header">
+    <div class="container nav-wrapper">
+      <a href="#" class="brand-logo" data-od-id="brand-logo">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        SkillSprint
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links" id="nav-links" data-od-id="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#paths" class="nav-link">Skill Paths</a></li>
+          <li><a href="#pricing" class="nav-link">Pricing</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#pricing" class="btn btn-ghost" data-od-id="nav-login">Sign In</a>
+        <a href="#pricing" class="btn btn-primary" data-od-id="nav-cta">Start Free Sprint</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" aria-expanded="false" data-od-id="nav-toggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" data-od-id="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Microlearning Reimagined
+          </div>
+          <h1 class="hero-title">
+            Master high-value skills in <span class="hero-highlight">5-minute daily sprints</span>
+          </h1>
+          <p class="hero-sub">
+            SkillSprint gives modern teams bite-sized, interactive learning paths that build real mastery without interrupting the workday flow.
+          </p>
+          <div class="hero-cta">
+            <a href="#pricing" class="btn btn-primary" data-od-id="hero-primary-cta">
+              Start Free 14-Day Sprint
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#demo" class="btn btn-secondary" data-od-id="hero-secondary-cta">
+              Try Interactive Demo
+            </a>
+          </div>
+          <p class="hero-guarantee">No credit card required · Free 14-day team trial · Cancel anytime</p>
+        </div>
+
+        <!-- Interactive Demo Preview -->
+        <div class="hero-demo" id="demo" data-od-id="interactive-sprint-demo">
+          <div class="demo-header">
+            <div class="demo-dots">
+              <div class="demo-dot"></div>
+              <div class="demo-dot"></div>
+              <div class="demo-dot"></div>
+            </div>
+            <div class="demo-title">SkillSprint Live Preview — Daily Sprint #14</div>
+            <div style="width: 40px;"></div>
+          </div>
+          <div class="demo-body">
+            <div class="sprint-card">
+              <div class="sprint-meta">
+                <span class="sprint-tag">Product Management</span>
+                <span class="sprint-time">Est. 4 mins</span>
+              </div>
+              <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Prioritizing Technical Debt vs Feature Velocity</h4>
+              <p style="font-size: 0.875rem; color: var(--muted);">Select the optimal framework for sprint planning:</p>
+              
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="demo-progress"></div>
+              </div>
+
+              <div class="quiz-options" id="quiz-options">
+                <button class="quiz-opt" onclick="selectQuiz(this, true)">
+                  <span>A) RICE Scoring Framework</span>
+                  <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="quiz-opt" onclick="selectQuiz(this, false)">
+                  <span>B) Pure First-In First-Out Queue</span>
+                </button>
+                <button class="quiz-opt" onclick="selectQuiz(this, false)">
+                  <span>C) Ad-hoc Stakeholder Votes</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="demo-info">
+              <div class="streak-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Current Team Streak: 12 Days 🔥
+              </div>
+              <h3 style="margin-top: 1.25rem;">Learn by Doing, Not Watching</h3>
+              <p>Every SkillSprint module combines actionable 2-minute context readings with immediate interactive knowledge checks and real-world scenario challenges.</p>
+              <div style="display: flex; gap: 1.5rem; color: var(--fg); font-weight: 600; font-size: 0.9rem;">
+                <div>⚡ 94% Completion Rate</div>
+                <div>🎯 5 Min/Day</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof Logos -->
+    <section class="logos-section" data-od-id="social-proof-section">
+      <div class="container">
+        <p class="logos-title">Trusted by fast-moving teams at modern companies</p>
+        <div class="logos-grid">
+          <span class="logo-item">NEXUS</span>
+          <span class="logo-item">FLOWSTACK</span>
+          <span class="logo-item">HYPERWAVE</span>
+          <span class="logo-item">ORBITAL</span>
+          <span class="logo-item">SYNAPSE</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features" id="features" data-od-id="features-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge">Built For Action</div>
+          <h2>Everything your team needs to stay ahead</h2>
+          <p>Ditch long video courses nobody finishes. SkillSprint turns professional upskilling into habit-forming daily routines.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card" data-od-id="feature-card-microlearning">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>5-Minute Bites</h3>
+            <p>Designed specifically for busy schedules. Each sprint delivers one clear, actionable framework or technique in 5 minutes flat.</p>
+          </div>
+
+          <div class="feature-card" data-od-id="feature-card-paths">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+            <h3>Curated Skill Paths</h3>
+            <p>Pre-built pathways covering AI tools, system design, modern product management, data literacy, and high-growth leadership.</p>
+          </div>
+
+          <div class="feature-card" data-od-id="feature-card-analytics">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <h3>Team Analytics</h3>
+            <p>Track skill retention, completion rates, and team progress transparently with real-time manager dashboards.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skill Pathways Selector -->
+    <section class="paths-section" id="paths" data-od-id="paths-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge">Explore Pathways</div>
+          <h2>Curated tracks for every modern role</h2>
+          <p>Choose from over 40+ structured skill paths crafted by industry experts.</p>
+        </div>
+
+        <div class="paths-tabs" data-od-id="paths-tabs">
+          <button class="path-tab active" onclick="filterPaths(this, 'all')">All Pathways</button>
+          <button class="path-tab" onclick="filterPaths(this, 'engineering')">Engineering</button>
+          <button class="path-tab" onclick="filterPaths(this, 'product')">Product & Design</button>
+          <button class="path-tab" onclick="filterPaths(this, 'ai')">AI & Data</button>
+        </div>
+
+        <div class="paths-preview" id="paths-grid" data-od-id="paths-grid">
+          <div class="path-card" data-category="engineering">
+            <div class="path-lessons-count">12 Sprints · 60 Mins</div>
+            <h4>System Design Fundamentals</h4>
+            <p>Learn API design, caching strategies, load balancing, and database partitioning through mini-challenges.</p>
+          </div>
+
+          <div class="path-card" data-category="product">
+            <div class="path-lessons-count">10 Sprints · 50 Mins</div>
+            <h4>Product Discovery & Metrics</h4>
+            <p>Master retention loops, cohort analysis, and user research frameworks for product-led growth.</p>
+          </div>
+
+          <div class="path-card" data-category="ai">
+            <div class="path-lessons-count">15 Sprints · 75 Mins</div>
+            <h4>Practical Prompt Engineering</h4>
+            <p>Unlock LLM capabilities, structured output prompting, and AI workflow automation for non-engineers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing" data-od-id="pricing-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge">Simple Pricing</div>
+          <h2>Invest in your team's daily growth</h2>
+          <p>Start with a free 14-day trial. Flexible plans for individuals and scaling teams.</p>
+        </div>
+
+        <div class="pricing-toggle-wrap">
+          <span class="toggle-label active" id="monthly-label">Monthly Billing</span>
+          <label class="switch" data-od-id="pricing-toggle">
+            <input type="checkbox" id="billing-toggle" onchange="togglePricing()">
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label" id="annual-label">Annual Billing <span style="color: var(--accent); font-weight: 700;">(Save 20%)</span></span>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Starter -->
+          <div class="price-card" data-od-id="price-card-starter">
+            <div class="price-name">Starter</div>
+            <div class="price-desc">Ideal for individual learners seeking continuous skill development.</div>
+            <div class="price-amount-wrap">
+              <span class="price-currency">$</span>
+              <span class="price-val" id="price-starter">15</span>
+              <span class="price-period" id="period-starter">/user/mo</span>
+            </div>
+            <ul class="price-features">
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Access to 20+ Core Paths</li>
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 5-minute daily sprint goal</li>
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Personal streak tracking</li>
+            </ul>
+            <a href="#" class="btn btn-secondary" style="width: 100%;">Get Started Free</a>
+          </div>
+
+          <!-- Team (Popular) -->
+          <div class="price-card popular" data-od-id="price-card-team">
+            <div class="popular-badge">Most Popular</div>
+            <div class="price-name">Pro Team</div>
+            <div class="price-desc">For growing teams wanting shared learning tracks and analytics.</div>
+            <div class="price-amount-wrap">
+              <span class="price-currency">$</span>
+              <span class="price-val" id="price-team">29</span>
+              <span class="price-period" id="period-team">/user/mo</span>
+            </div>
+            <ul class="price-features">
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> All 40+ Core & Advanced Paths</li>
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Team Manager Dashboard</li>
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Slack / Teams Integration</li>
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Custom skill path builder</li>
+            </ul>
+            <a href="#" class="btn btn-primary" style="width: 100%;" data-od-id="pricing-primary-cta">Start 14-Day Free Trial</a>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="price-card" data-od-id="price-card-enterprise">
+            <div class="price-name">Enterprise</div>
+            <div class="price-desc">Custom learning workflows, SSO, and dedicated success manager.</div>
+            <div class="price-amount-wrap">
+              <span class="price-val" style="font-size: 2.25rem;">Custom</span>
+            </div>
+            <ul class="price-features">
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Unlimited seat allocation</li>
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> SAML / SSO Integration</li>
+              <li><svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Dedicated Learning Strategist</li>
+            </ul>
+            <a href="#" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq" data-od-id="faq-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge">Got Questions?</div>
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-grid" data-od-id="faq-accordion">
+          <div class="faq-item open">
+            <button class="faq-button" onclick="toggleFaq(this)" aria-expanded="true">
+              How do 5-minute daily sprints work?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Each sprint presents a concise key concept followed by an interactive challenge. Learners can complete them on web or mobile in 5 minutes during coffee breaks or before meetings.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-button" onclick="toggleFaq(this)" aria-expanded="false">
+              Can managers create custom skill paths for our team?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Yes! Pro Team and Enterprise plans include our intuitive Custom Path Builder, allowing engineering and product leads to curate team-specific onboarding and skill tracks.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-button" onclick="toggleFaq(this)" aria-expanded="false">
+              Is there a free trial?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Absolutly. We offer a full-featured 14-day free trial for up to 25 team members with zero credit card required up front.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Banner -->
+    <section class="cta-banner" data-od-id="cta-banner">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Ready to level up your team's skills?</h2>
+          <p>Join thousands of professionals who build real mastery in just 5 minutes a day with SkillSprint.</p>
+          <a href="#pricing" class="btn btn-primary" style="padding: 0.9rem 2rem; font-size: 1.1rem;" data-od-id="footer-banner-cta">
+            Start Your Free 14-Day Sprint
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" data-od-id="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="brand-logo">
+            <div class="brand-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            SkillSprint
+          </a>
+          <p>Practical microlearning paths for teams striving for daily excellence and continuous growth.</p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Product</h5>
+          <ul class="footer-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#paths">Skill Paths</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#demo">Live Demo</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Resources</h5>
+          <ul class="footer-links">
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#">Learning Guides</a></li>
+            <li><a href="#">Team Templates</a></li>
+            <li><a href="#">API Docs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul class="footer-links">
+            <li><a href="#">About SkillSprint</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 SkillSprint Inc. All rights reserved.</div>
+        <div>Built for modern high-performance teams.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Nav Toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    if (navToggle && navLinks) {
+      navToggle.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
+        navToggle.setAttribute('aria-expanded', !expanded);
+        navLinks.classList.toggle('active');
+      });
+    }
+
+    // Interactive Quiz Demo
+    function selectQuiz(btn, isCorrect) {
+      const options = document.querySelectorAll('.quiz-opt');
+      options.forEach(opt => opt.classList.remove('selected'));
+      btn.classList.add('selected');
+      const progress = document.getElementById('demo-progress');
+      if (progress) {
+        progress.style.width = isCorrect ? '100%' : '80%';
+      }
+    }
+
+    // Path Filter
+    function filterPaths(tab, category) {
+      document.querySelectorAll('.path-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const cards = document.querySelectorAll('.path-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Interactive Pricing Toggle
+    function togglePricing() {
+      const isAnnual = document.getElementById('billing-toggle').checked;
+      const starter = document.getElementById('price-starter');
+      const team = document.getElementById('price-team');
+
+      document.getElementById('monthly-label').classList.toggle('active', !isAnnual);
+      document.getElementById('annual-label').classList.toggle('active', isAnnual);
+
+      if (isAnnual) {
+        starter.textContent = '12';
+        team.textContent = '23';
+      } else {
+        starter.textContent = '15';
+        team.textContent = '29';
+      }
+    }
+
+    // FAQ Accordion
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-button').setAttribute('aria-expanded', 'false');
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+  </script>
+</body>
+</html>

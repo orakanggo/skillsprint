@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "sqlite"
+  url = env("DATABASE_URL")
+}
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String?
+  createdAt DateTime @default(now())
+  progress Progress[]
+}
+model Path {
+  id String @id @default(cuid())
+  slug String @unique
+  title String
+  description String
+  category String
+  lessons Sprint[]
+}
+model Sprint {
+  id String @id
+  pathId String
+  title String
+  content String
+  question String
+  answer String
+  options String
+  duration Int @default(5)
+  order Int
+  path Path @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  progress Progress[]
+}
+model Progress {
+  id String @id @default(cuid())
+  userId String
+  sprintId String
+  completedAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  @@unique([userId, sprintId])
+}

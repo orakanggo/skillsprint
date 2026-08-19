@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+export async function GET(_: Request, { params }: { params: Promise<{ slug: string }> }) { const { slug } = await params; const path = await prisma.path.findUnique({ where: { slug }, select: { id: true, slug: true, title: true, description: true, category: true, lessons: { select: { id: true, title: true, content: true, question: true, options: true, duration: true, order: true }, orderBy: { order: 'asc' } } } }); if (!path) return NextResponse.json({ error: 'Learning path not found' }, { status: 404 }); return NextResponse.json(path) }
